@@ -1,0 +1,38 @@
+﻿@model HOTEL.Models.Reservation
+
+<h2>Create Reservation</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Id" class="form-label">Reservation ID</label>
+        <input asp-for="Id" class="form-control" />
+        <span asp-validation-for="Id" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="userId" class="form-label">User ID</label>
+        <input asp-for="userId" class="form-control" />
+        <span asp-validation-for="userId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ChambreId" class="form-label">Select Chambre</label>
+        <select asp-for="ChambreId" class="form-control">
+            <option value="">-- Select a Chambre --</option>
+            @foreach (var chambre in ViewBag.Chambres)
+            {
+                <option value="@chambre.Id">@chambre.Id - Capacity: @chambre.Capacite, Price: @chambre.Prix</option>
+            }
+        </select>
+        <span asp-validation-for="ChambreId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DateReservation" class="form-label">Reservation Date</label>
+        <input asp-for="DateReservation" class="form-control" type="datetime-local" />
+        <span asp-validation-for="DateReservation" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Create</button>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</form>

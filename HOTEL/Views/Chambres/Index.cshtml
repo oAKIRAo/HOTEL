@@ -1,0 +1,33 @@
+﻿@model IEnumerable<HOTEL.Models.Chambre>
+
+<h2>Chambres List</h2>
+
+<p>
+    <a href="@Url.Action("Create", "Chambres")" class="btn btn-primary">Create New Chambre</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Capacite</th>
+            <th>Prix</th>
+            <th>Est Reservee</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var chambre in Model)
+        {
+            <tr>
+                <td>@chambre.Id</td>
+                <td>@chambre.Capacite</td>
+                <td>@chambre.Prix</td>
+                <td>@chambre.EstReservee</td>
+                <td>
+                    <a href="#">Edit</a> | <a href="#">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
