@@ -58,6 +58,11 @@ namespace HOTEL.Controllers
 
                 if (result.Succeeded)
                 {
+                    // Assign the "Customer" role by default
+                    await userManager.AddToRoleAsync(users, "Customer");
+
+                    // Sign in the user
+                    await signInManager.SignInAsync(users, isPersistent: false);
                     return RedirectToAction("Login", "Account");
                 }
                 else

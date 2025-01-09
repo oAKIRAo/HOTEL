@@ -30,9 +30,22 @@
                         </li>
                         @if (signInManager.IsSignedIn(User))
                         {
+                            var user = await userManager.GetUserAsync(User);
+                            var isAdmin = await userManager.IsInRoleAsync(user, "Admin");
+                            @if (isAdmin)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Chambre" asp-action="Index">Chambre</a>
+                                </li>
+
+                            }
+                            else
+                            {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Reservation" asp-action="Index">Reservation</a>
                             </li>
+                            }
+
                         }
                         else
                         {
