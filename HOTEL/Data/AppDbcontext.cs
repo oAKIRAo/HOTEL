@@ -23,10 +23,10 @@ namespace HOTEL.Data
                 base.OnModelCreating(modelBuilder);
 
                 // Define the relationship between Chambre and Reservation
-                modelBuilder.Entity<Reservation>()
-                    .HasOne(r => r.Chambre)
-                    .WithMany(c => c.Reservations)
-                    .HasForeignKey(r => r.ChambreId);
+                modelBuilder.Entity<Chambre>()
+                    .HasOne(r => r.reservation)
+                    .WithMany(c => c.chambres)
+                    .HasForeignKey(c => c.ReservationId);
 
                 // Define the relationship between Reservation and User (Identity User)
                 modelBuilder.Entity<Reservation>()

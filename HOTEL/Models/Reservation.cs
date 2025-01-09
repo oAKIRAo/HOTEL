@@ -17,9 +17,9 @@ namespace HOTEL.Models
         public DateTime DateReservation { get; set; }
 
         // Navigation Property
-        [ForeignKey("ChambreId")]
-        public Chambre Chambre { get; set; }
         [ForeignKey("userId")]
         public Users users { get; set; }
+        public ICollection<Chambre> chambres { get; set; }
+
     }
 }

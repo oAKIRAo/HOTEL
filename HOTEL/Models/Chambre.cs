@@ -1,5 +1,7 @@
 ﻿using HOTEL.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
 
 namespace HOTEL.Models
 {
@@ -15,8 +17,9 @@ namespace HOTEL.Models
         public float Prix { get; set; }
 
         public bool EstReservee { get; set; } = false;
-
-        // Navigation Property
-        public ICollection<Reservation> Reservations { get; set; }
+        public String ReservationId { get; set; }
+        [ForeignKey("ReservationId")]
+        public Reservation reservation { get; set; }
+    
     }
 }

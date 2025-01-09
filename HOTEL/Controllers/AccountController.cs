@@ -24,7 +24,7 @@ namespace HOTEL.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                var result = await signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, false);
 
                 if (result.Succeeded)
                 {
@@ -32,7 +32,7 @@ namespace HOTEL.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Email or password is incorrect.");
+                    ModelState.AddModelError("", "Username or password is incorrect.");
                     return View(model);
                 }
             }
@@ -51,7 +51,7 @@ namespace HOTEL.Controllers
                 {
                     FullName = model.Name,
                     Email = model.Email,
-                    UserName = model.Email,
+                    UserName = model.Username,
                 };
 
                 var result = await userManager.CreateAsync(users, model.Password);
@@ -81,7 +81,7 @@ namespace HOTEL.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await userManager.FindByNameAsync(model.Email);
+                var user = await userManager.FindByNameAsync(model.Username);
                 if (user != null)
                 {
                     var result = await userManager.RemovePasswordAsync(user);
@@ -103,7 +103,7 @@ namespace HOTEL.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Email not found!");
+                    ModelState.AddModelError("", "Username not found!");
                     return View(model);
                 }
             }

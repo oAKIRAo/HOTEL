@@ -27,7 +27,7 @@ namespace HOTEL.Controllers
 
         // POST: Chambres/Create
         [HttpPost]
-        public IActionResult Create([Bind("Id,Capacite,Prix,EstReservee")] Chambre chambre)
+            public IActionResult Create(Chambre chambre)
         {
             if (ModelState.IsValid)
             {
