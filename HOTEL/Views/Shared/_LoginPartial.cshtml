@@ -6,13 +6,15 @@
     @if (signInManager.IsSignedIn(User))
     {
         var user = await userManager.GetUserAsync(User);
-
-        <li class="nav-item">
-            <span class="nav-link text-dark">Welcome Back @user.UserName</span>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Logout</a>
-        </li>
+        if (user != null)
+        {
+            <li class="nav-item">
+                <span class="nav-link text-dark">Welcome Back @user.UserName</span>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Logout</a>
+            </li>
+        }
     }
     else
     {
@@ -22,6 +24,5 @@
         <li class="nav-item">
             <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Register</a>
         </li>
-
     }
 </ul>

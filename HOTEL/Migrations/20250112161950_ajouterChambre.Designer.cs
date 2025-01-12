@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HOTEL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250106215225_Projet")]
-    partial class Projet
+    [Migration("20250112161950_ajouterChambre")]
+    partial class ajouterChambre
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,8 +27,9 @@ namespace HOTEL.Migrations
 
             modelBuilder.Entity("HOTEL.Models.Chambre", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Capacite")
                         .HasColumnType("int");
@@ -36,22 +37,30 @@ namespace HOTEL.Migrations
                     b.Property<bool>("EstReservee")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<float>("Prix")
                         .HasColumnType("real");
 
+                    b.Property<int?>("ReservationId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ReservationId");
 
                     b.ToTable("Chambres");
                 });
 
             modelBuilder.Entity("HOTEL.Models.Reservation", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("ChambreId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DateReservation")
                         .HasColumnType("datetime2");
@@ -61,8 +70,6 @@ namespace HOTEL.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ChambreId");
 
                     b.HasIndex("userId");
 
@@ -271,21 +278,22 @@ namespace HOTEL.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("HOTEL.Models.Chambre", b =>
+                {
+                    b.HasOne("HOTEL.Models.Reservation", "reservation")
+                        .WithMany("chambres")
+                        .HasForeignKey("ReservationId");
+
+                    b.Navigation("reservation");
+                });
+
             modelBuilder.Entity("HOTEL.Models.Reservation", b =>
                 {
-                    b.HasOne("HOTEL.Models.Chambre", "Chambre")
-                        .WithMany("Reservations")
-                        .HasForeignKey("ChambreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("HOTEL.Models.Users", "users")
                         .WithMany("Reservations")
                         .HasForeignKey("userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Chambre");
 
                     b.Navigation("users");
                 });
@@ -341,9 +349,9 @@ namespace HOTEL.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("HOTEL.Models.Chambre", b =>
+            modelBuilder.Entity("HOTEL.Models.Reservation", b =>
                 {
-                    b.Navigation("Reservations");
+                    b.Navigation("chambres");
                 });
 
             modelBuilder.Entity("HOTEL.Models.Users", b =>

@@ -1,48 +1,40 @@
-﻿@model HOTEL.Models.Chambre
+﻿    @model HOTEL.Models.Chambre
 
-@{
-    ViewData["Title"] = "Create";
-}
+    @{
+        ViewData["Title"] = "Create";
+    }
 
-<h1>Create</h1>
+    <h1>Create</h1>
 
-<h4>Chambre</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Capacite" class="control-label"></label>
-                <input asp-for="Capacite" class="form-control" />
-                <span asp-validation-for="Capacite" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Prix" class="control-label"></label>
-                <input asp-for="Prix" class="form-control" />
-                <span asp-validation-for="Prix" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="EstReservee" /> @Html.DisplayNameFor(model => model.EstReservee)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+    <h4>Chambre</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label asp-for="Name"></label>
+                    <input type="text" asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Capacite"></label>
+                    <input type="number" asp-for="Capacite" class="form-control" />
+                    <span asp-validation-for="Capacite" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Prix"></label>
+                    <input type="number" asp-for="Prix" class="form-control" />
+                    <span asp-validation-for="Prix" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Create</button>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

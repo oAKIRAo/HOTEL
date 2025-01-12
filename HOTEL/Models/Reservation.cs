@@ -7,12 +7,9 @@ namespace HOTEL.Models
     public class Reservation
     {
         [Key]
-        public string Id { get; set; }
+        public int Id { get; set; }
         [Required]
         public string userId { get; set; }
-        [Required]
-        public string ChambreId { get; set; }
-
         [Required]
         public DateTime DateReservation { get; set; }
 

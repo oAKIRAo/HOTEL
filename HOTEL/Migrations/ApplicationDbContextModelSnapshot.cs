@@ -24,8 +24,9 @@ namespace HOTEL.Migrations
 
             modelBuilder.Entity("HOTEL.Models.Chambre", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Capacite")
                         .HasColumnType("int");
@@ -33,12 +34,15 @@ namespace HOTEL.Migrations
                     b.Property<bool>("EstReservee")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<float>("Prix")
                         .HasColumnType("real");
 
-                    b.Property<string>("ReservationId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("ReservationId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -49,12 +53,11 @@ namespace HOTEL.Migrations
 
             modelBuilder.Entity("HOTEL.Models.Reservation", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("ChambreId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DateReservation")
                         .HasColumnType("datetime2");
@@ -276,9 +279,7 @@ namespace HOTEL.Migrations
                 {
                     b.HasOne("HOTEL.Models.Reservation", "reservation")
                         .WithMany("chambres")
-                        .HasForeignKey("ReservationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ReservationId");
 
                     b.Navigation("reservation");
                 });

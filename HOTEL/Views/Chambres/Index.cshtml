@@ -9,7 +9,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Id</th>
+            <th>Name</th>
             <th>Capacite</th>
             <th>Prix</th>
             <th>Est Reservee</th>
@@ -20,12 +20,12 @@
         @foreach (var chambre in Model)
         {
             <tr>
-                <td>@chambre.Id</td>
+                <td>@chambre.Name</td>
                 <td>@chambre.Capacite</td>
                 <td>@chambre.Prix</td>
                 <td>@chambre.EstReservee</td>
                 <td>
-                    <a href="#">Edit</a> | <a href="#">Delete</a>
+                    <a href="#">Edit</a> | <a href="#">Delete</a> 
                 </td>
             </tr>
         }
