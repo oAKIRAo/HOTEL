@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HOTEL.Migrations
 {
     /// <inheritdoc />
-    public partial class ajouterChambre : Migration
+    public partial class ServiceAdded : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -161,8 +161,8 @@ namespace HOTEL.Migrations
                 name: "Reservations",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     userId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DateReservation = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -186,7 +186,7 @@ namespace HOTEL.Migrations
                     Prix = table.Column<float>(type: "real", nullable: false),
                     EstReservee = table.Column<bool>(type: "bit", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReservationId = table.Column<int>(type: "int", nullable: true)
+                    ReservationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -196,6 +196,26 @@ namespace HOTEL.Migrations
                         column: x => x.ReservationId,
                         principalTable: "Reservations",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Services",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<float>(type: "real", nullable: false),
+                    ReservationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Services", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Services_Reservations_ReservationId",
+                        column: x => x.ReservationId,
+                        principalTable: "Reservations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -240,12 +260,19 @@ namespace HOTEL.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Chambres_ReservationId",
                 table: "Chambres",
-                column: "ReservationId");
+                column: "ReservationId",
+                unique: true,
+                filter: "[ReservationId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_userId",
                 table: "Reservations",
                 column: "userId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Services_ReservationId",
+                table: "Services",
+                column: "ReservationId");
         }
 
         /// <inheritdoc />
@@ -268,6 +295,9 @@ namespace HOTEL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Chambres");
+
+            migrationBuilder.DropTable(
+                name: "Services");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

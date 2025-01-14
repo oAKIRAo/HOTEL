@@ -9,40 +9,43 @@
         {
             public DbSet<Chambre> Chambres { get; set; }
             public DbSet<Reservation> Reservations { get; set; }
+            public DbSet<Service> Services { get; set; }
 
-            public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
                 : base(options)
             {
             }
 
-            protected override void OnModelCreating(ModelBuilder modelBuilder)
-            {
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
+            // Configure the one-to-many relationship between Reservation and Chambre
+            modelBuilder.Entity<Chambre>()
+                  .HasOne(c => c.reservation) // One Chambre has one Reservation
+                  .WithOne(r => r.chambre)    // One Reservation has one Chambre
+                  .HasForeignKey<Chambre>(c => c.ReservationId)
+                   .IsRequired(false); // Optional (nullable) foreign key
 
-                modelBuilder.Entity<Chambre>()
-                    .Property(c => c.Id)
-                    .ValueGeneratedOnAdd(); // Optional, only for auto GUID generation
-
-                // Ensure you call the base method for Identity tables to be created
-                base.OnModelCreating(modelBuilder);
-
-                // Define the relationship between Chambre and Reservation (Chambre has one Reservation, Reservation can have many Chambres)
-                modelBuilder.Entity<Chambre>()
-                    .HasOne(c => c.reservation) // A Chambre has one Reservation
-                    .WithMany(r => r.chambres)  // A Reservation can have multiple Chambres
-                    .HasForeignKey(c => c.ReservationId) // ForeignKey on ReservationId in Chambre
-                    .IsRequired(false);
-
-            // Define the relationship between Reservation and User (Identity User)
+            // Configure the relationship between Reservation and User
             modelBuilder.Entity<Reservation>()
-                    .HasOne(r => r.users) // A reservation is linked to one user
-                    .WithMany(u => u.Reservations) // A user can have multiple reservations
-                    .HasForeignKey(r => r.userId); // Foreign key on userId in Reservation
+                .HasOne(r => r.users) // A Reservation is linked to one User
+                .WithMany(u => u.Reservations) // A User can have many Reservations
+                .HasForeignKey(r => r.userId); // Foreign key on userId in Reservation
 
-                // Ensure `ReservationId` in Chambre is optional (nullable)
-                modelBuilder.Entity<Chambre>()
-                    .Property(c => c.ReservationId)
-                    .IsRequired(false); // Optional column in the database
-            }
+            // Ensure `Id` properties are auto-generated
+            modelBuilder.Entity<Chambre>()
+                .Property(c => c.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Reservation>()
+                .Property(r => r.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Service>()
+                .Property(s => s.Id)
+                .ValueGeneratedOnAdd();
         }
+    }
     }

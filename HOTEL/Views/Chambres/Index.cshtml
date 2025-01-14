@@ -1,33 +1,54 @@
 ﻿@model IEnumerable<HOTEL.Models.Chambre>
 
-<h2>Chambres List</h2>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
 
 <p>
-    <a href="@Url.Action("Create", "Chambres")" class="btn btn-primary">Create New Chambre</a>
+    <a href="@Url.Action("Create", "Chambres")" class="btn btn-primary">Add New room</a>
 </p>
-
 <table class="table">
     <thead>
-        <tr>
-            <th>Name</th>
-            <th>Capacite</th>
-            <th>Prix</th>
-            <th>Est Reservee</th>
-            <th>Actions</th>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Name)
+			</th>
+            <th>
+                @Html.DisplayNameFor(model => model.Capacite)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Prix)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstReservee)
+            </th>
+
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var chambre in Model)
-        {
-            <tr>
-                <td>@chambre.Name</td>
-                <td>@chambre.Capacite</td>
-                <td>@chambre.Prix</td>
-                <td>@chambre.EstReservee</td>
-                <td>
-                    <a href="#">Edit</a> | <a href="#">Delete</a> 
-                </td>
-            </tr>
-        }
+@foreach (var item in Model) {
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Name)
+			</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Capacite)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prix)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstReservee)
+            </td>
+
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
     </tbody>
 </table>

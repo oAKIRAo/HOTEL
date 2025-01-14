@@ -1,0 +1,132 @@
+﻿/* General body styles */
+body {
+	font-family: 'Arial', sans-serif;
+	background-color: #f4f7fc;
+	margin: 0;
+	padding: 0;
+	color: #333;
+}
+.BackgroundImage {
+	background-image: url('../images/image.jpg');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat; /* Avoid repeating the background */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh; /* Full viewport height */
+	margin: 0; /* Reset margins */
+	padding: 0; /* Remove extra padding for proper centering */
+}
+/* Container */
+.container {
+	max-width: 1200px;
+	margin: 30px auto;
+	padding: 20px;
+	background-color: #ffffff;
+	border-radius: 10px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Title styling */
+h1 {
+	text-align: center;
+	color: #2c3e50;
+	font-size: 2.5rem;
+	margin-bottom: 30px;
+}
+
+/* Section Header styling */
+h2 {
+	color: #2980b9;
+	font-size: 1.8rem;
+	margin-top: 40px;
+	margin-bottom: 20px;
+}
+
+/* Empty state message */
+p.empty-state {
+	text-align: center;
+	color: #777;
+	font-size: 1.2rem;
+}
+
+/* Table styling */
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-bottom: 30px;
+	background-color: #ffffff;
+}
+
+	/* Table header styles */
+	table thead {
+		background-color: #2980b9;
+		color: white;
+	}
+
+	table th, table td {
+		padding: 12px 20px;
+		text-align: left;
+		border-bottom: 1px solid #f0f0f0;
+	}
+
+	/* Table row hover effect */
+	table tr:hover {
+		background-color: #f9f9f9;
+	}
+
+/* Buttons for actions */
+a.btn {
+	display: inline-block;
+	padding: 10px 20px;
+	color: white;
+	text-decoration: none;
+	border-radius: 4px;
+	font-size: 14px;
+	text-align: center;
+}
+
+/* Button styles */
+a.btn-primary {
+	background-color: #4CAF50;
+}
+
+	a.btn-primary:hover {
+		background-color: #45a049;
+	}
+
+a.btn-danger {
+	background-color: #e74c3c;
+}
+
+	a.btn-danger:hover {
+		background-color: #c0392b;
+	}
+
+/* Responsive Tables */
+@media (max-width: 768px) {
+	table, thead, tbody, th, td, tr {
+		display: block;
+	}
+
+		table tr {
+			margin-bottom: 15px;
+		}
+
+		table th, table td {
+			text-align: right;
+			padding: 10px;
+		}
+
+			table td::before {
+				content: attr(data-label);
+				font-weight: bold;
+				display: inline-block;
+				width: 120px;
+			}
+
+	.container {
+		padding: 15px;
+	}
+}

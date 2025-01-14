@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=HOTEL2;Trusted_Connection=True;MultipleActiveResultSets=true"));
+    options.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=HOTEL;Trusted_Connection=True;MultipleActiveResultSets=true"));
 builder.Services.AddIdentity<Users, IdentityRole>(options =>
 {
     options.Password.RequireNonAlphanumeric = false;

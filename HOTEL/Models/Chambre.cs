@@ -8,6 +8,7 @@ namespace HOTEL.Models
 {
     public class Chambre
     {
+        [Key]
         public Guid Id { get; set; }
         [Required]
         public int Capacite { get; set; }
@@ -19,7 +20,7 @@ namespace HOTEL.Models
         public bool EstReservee { get; set; } = false;
         [Required]
         public String Name { get; set; }
-        public int? ReservationId { get; set; } = null;
+        public Guid? ReservationId { get; set; } = null;
 
         [ForeignKey("ReservationId")]
         public Reservation? reservation { get; set; }= null;

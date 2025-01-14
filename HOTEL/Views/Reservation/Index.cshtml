@@ -1,0 +1,83 @@
+﻿﻿@using HOTEL.ViewModels;
+@model ChambreServiceViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_RoomServiceLayout.cshtml";
+
+}
+<div class ="BackgroundImage">
+<div class="container">
+
+    <div class="section">
+        <h1>Rooms</h1>
+
+        @if (!Model.Chambres.Any())
+        {
+            <p class="empty-message">No rooms available or all rooms are reserved.</p>
+        }
+        else
+        {
+            <div class="table-container">
+                <table class="Room_table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Capacity</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var chambre in Model.Chambres.Where(c => !c.EstReservee))
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => chambre.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => chambre.Capacite)</td>
+                                <td>@Html.DisplayFor(modelItem => chambre.Prix)</td>
+                                <td>
+                                    <a asp-action="Reserve" asp-route-id="@chambre.Id" class="btn btn-primary">Book a room</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+
+    <div class="section">
+        <h1>Services</h1>
+
+        @if (!Model.Services.Any())
+        {
+            <p class="empty-message">No services available.</p>
+        }
+        else
+        {
+            <div class="table-container">
+                <table class="Service_table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var service in Model.Services)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => service.Type)</td>
+                                <td>@Html.DisplayFor(modelItem => service.Price)</td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@service.Id" class="btn btn-primary">Add a service</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+
+</div>
+    </div>

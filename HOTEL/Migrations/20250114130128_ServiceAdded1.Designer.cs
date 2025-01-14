@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HOTEL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250112161950_ajouterChambre")]
-    partial class ajouterChambre
+    [Migration("20250114130128_ServiceAdded1")]
+    partial class ServiceAdded1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,26 +44,30 @@ namespace HOTEL.Migrations
                     b.Property<float>("Prix")
                         .HasColumnType("real");
 
-                    b.Property<int?>("ReservationId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("ReservationId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ReservationId");
+                    b.HasIndex("ReservationId")
+                        .IsUnique()
+                        .HasFilter("[ReservationId] IS NOT NULL");
 
                     b.ToTable("Chambres");
                 });
 
             modelBuilder.Entity("HOTEL.Models.Reservation", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DateReservation")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("userId")
                         .IsRequired()
@@ -74,6 +78,29 @@ namespace HOTEL.Migrations
                     b.HasIndex("userId");
 
                     b.ToTable("Reservations");
+                });
+
+            modelBuilder.Entity("HOTEL.Models.Service", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
+
+                    b.Property<Guid?>("ReservationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReservationId");
+
+                    b.ToTable("Services");
                 });
 
             modelBuilder.Entity("HOTEL.Models.Users", b =>
@@ -281,8 +308,8 @@ namespace HOTEL.Migrations
             modelBuilder.Entity("HOTEL.Models.Chambre", b =>
                 {
                     b.HasOne("HOTEL.Models.Reservation", "reservation")
-                        .WithMany("chambres")
-                        .HasForeignKey("ReservationId");
+                        .WithOne("chambre")
+                        .HasForeignKey("HOTEL.Models.Chambre", "ReservationId");
 
                     b.Navigation("reservation");
                 });
@@ -296,6 +323,15 @@ namespace HOTEL.Migrations
                         .IsRequired();
 
                     b.Navigation("users");
+                });
+
+            modelBuilder.Entity("HOTEL.Models.Service", b =>
+                {
+                    b.HasOne("HOTEL.Models.Reservation", "reservation")
+                        .WithMany("services")
+                        .HasForeignKey("ReservationId");
+
+                    b.Navigation("reservation");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -351,7 +387,10 @@ namespace HOTEL.Migrations
 
             modelBuilder.Entity("HOTEL.Models.Reservation", b =>
                 {
-                    b.Navigation("chambres");
+                    b.Navigation("chambre")
+                        .IsRequired();
+
+                    b.Navigation("services");
                 });
 
             modelBuilder.Entity("HOTEL.Models.Users", b =>

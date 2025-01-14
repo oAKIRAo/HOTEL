@@ -32,14 +32,22 @@ namespace HOTEL.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (!chambre.ReservationId.HasValue)
+                try
                 {
-                    chambre.ReservationId = null; // if there is no reservation linked tho this room i make sure it's null 
+                    if (!chambre.ReservationId.HasValue)
+                    {
+                        chambre.ReservationId = null; // if there is no reservation linked tho this room i make sure it's null 
+                    }
+                    _context.Chambres.Add(chambre);
+                    _context.SaveChanges();
+                    return RedirectToAction(nameof(Index));
                 }
-                _context.Chambres.Add(chambre);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "An error occurred while saving the room. Please try again.");
+                }
             }
+
             else
             {
                 foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
@@ -50,5 +58,58 @@ namespace HOTEL.Controllers
             }
             return View(chambre);
         }
+        public IActionResult Edit(Guid id)
+        {
+            var chambre = _context.Chambres.FirstOrDefault(c => c.Id == id);
+            if (chambre == null)
+            {
+                return NotFound();
+            }
+            return View(chambre);
+        }
+        [HttpPost]
+        public IActionResult Edit(Guid id, Chambre updatedChambre)
+        {
+            if (ModelState.IsValid)
+            {
+                var chambre = _context.Chambres.FirstOrDefault(c => c.Id == id);
+                if (chambre != null)
+                {
+                    chambre.Capacite = updatedChambre.Capacite;
+                    chambre.Prix = updatedChambre.Prix;
+                    chambre.EstReservee = updatedChambre.EstReservee;
+                    chambre.Name = updatedChambre.Name;
+
+                    _context.SaveChanges();
+                    return RedirectToAction(nameof(Index));
+                }
+                return NotFound();
+            }
+            return View(updatedChambre);
+        }
+        public IActionResult Delete(Guid id)
+        {
+            var chambre = _context.Chambres.FirstOrDefault(c => c.Id == id);
+            if (chambre == null)
+            {
+                return NotFound();
+            }
+            return View(chambre);
+        }
+
+        [HttpPost]
+        public IActionResult Deleted(Guid id)
+        {
+            var chambre = _context.Chambres.FirstOrDefault(c => c.Id == id);
+            if (chambre != null)
+            {
+                _context.Chambres.Remove(chambre);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            return NotFound();
+        }
+
+
     }
 }
