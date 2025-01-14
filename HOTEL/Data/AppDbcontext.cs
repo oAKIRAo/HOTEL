@@ -23,11 +23,16 @@
 
             // Configure the one-to-many relationship between Reservation and Chambre
             modelBuilder.Entity<Chambre>()
-                  .HasOne(c => c.reservation) // One Chambre has one Reservation
-                  .WithOne(r => r.chambre)    // One Reservation has one Chambre
-                  .HasForeignKey<Chambre>(c => c.ReservationId)
+                  .HasOne(c => c.reservation) // A chamber is linked to one reservation
+                  .WithMany(r => r.chambres)  // A Reservation can have many chambres 
+                  .HasForeignKey(c => c.ReservationId)
                    .IsRequired(false); // Optional (nullable) foreign key
-
+                                       // Configure the one-to-many relationship between Reservation and Chambre
+            modelBuilder.Entity<Service>()
+                  .HasOne(s => s.reservation) // A chamber is linked to one reservation
+                  .WithMany(r => r.services)  // A Reservation can have many chambres 
+                  .HasForeignKey(s => s.ReservationId)
+                   .IsRequired(false); // Optional (nullable) foreign key
             // Configure the relationship between Reservation and User
             modelBuilder.Entity<Reservation>()
                 .HasOne(r => r.users) // A Reservation is linked to one User

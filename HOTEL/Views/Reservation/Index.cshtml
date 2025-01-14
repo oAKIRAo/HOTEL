@@ -1,6 +1,11 @@
 ﻿﻿@using HOTEL.ViewModels;
-@model ChambreServiceViewModel
+@using Microsoft.AspNetCore.Identity
 
+@model ChambreServiceViewModel
+@inject UserManager<Users> userManager
+@{
+    var userId = userManager.GetUserId(User);
+}
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_RoomServiceLayout.cshtml";
@@ -34,9 +39,9 @@
                                 <td>@Html.DisplayFor(modelItem => chambre.Name)</td>
                                 <td>@Html.DisplayFor(modelItem => chambre.Capacite)</td>
                                 <td>@Html.DisplayFor(modelItem => chambre.Prix)</td>
-                                <td>
-                                    <a asp-action="Reserve" asp-route-id="@chambre.Id" class="btn btn-primary">Book a room</a>
-                                </td>
+                                    <td>
+                                        <a asp-action="ReserveRoom" asp-route-chambreId="@chambre.Id" asp-route-userId="@userId" class="btn btn-primary">Reserve Room</a>
+                                    </td>
                             </tr>
                         }
                     </tbody>
@@ -68,9 +73,9 @@
                             <tr>
                                 <td>@Html.DisplayFor(modelItem => service.Type)</td>
                                 <td>@Html.DisplayFor(modelItem => service.Price)</td>
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@service.Id" class="btn btn-primary">Add a service</a>
-                                </td>
+                                    <td>
+                                        <a asp-action="AddService" asp-route-serviceId="@service.Id" asp-route-userId="@userId" class="btn btn-primary">Add a service</a>
+                                    </td>
                             </tr>
                         }
                     </tbody>

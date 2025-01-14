@@ -17,7 +17,7 @@ namespace HOTEL.Models
         // Navigation Property
         [ForeignKey("userId")]
         public Users users { get; set; }
-        public Chambre chambre { get; set; }
+        public ICollection<Chambre> chambres { get; set; }
         public ICollection<Service> services { get; set; }
 
 

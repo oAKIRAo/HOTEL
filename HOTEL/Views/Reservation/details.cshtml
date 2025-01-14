@@ -1,0 +1,74 @@
+﻿﻿@using HOTEL.ViewModels;
+
+@model ReservationDetailsViewModel;
+
+@{
+    ViewData["Title"] = "Reservation Details";
+}
+
+<h1>Reservation Details</h1>
+
+<div>
+    <h2>Reservation Information</h2>
+    <p><strong>Reservation ID:</strong> @Model.ReservationId</p>
+    <p><strong>User ID:</strong> @Model.UserId</p>
+    <p><strong>Date of Reservation:</strong> @Model.DateReservation</p>
+</div>
+
+<div>
+    <h2>Rooms</h2>
+    @if (Model.Chambres.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Capacity</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var chambre in Model.Chambres)
+                {
+                    <tr>
+                        <td>@chambre.Name</td>
+                        <td>@chambre.Capacite</td>
+                        <td>@chambre.Prix</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No rooms reserved.</p>
+    }
+</div>
+
+<div>
+    <h2>Services</h2>
+    @if (Model.Services.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var service in Model.Services)
+                {
+                    <tr>
+                        <td>@service.Type</td>
+                        <td>@service.Price</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No services added.</p>
+    }
+</div>
