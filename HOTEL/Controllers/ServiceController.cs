@@ -25,6 +25,11 @@ namespace HOTEL.Controllers
         [HttpPost]
         public IActionResult Add(Service service)
         {
+            if (_context.Services.Any(s => s.Type == service.Type))
+            {
+                ModelState.AddModelError("", "The service name is already taken. Please choose a different name.");
+                return View(service);
+            }
             if (ModelState.IsValid)
             {
                 try

@@ -12,7 +12,6 @@ namespace HOTEL.Models
         public Guid Id { get; set; }
         [Required]
         public int Capacite { get; set; }
-
         [Required]
         public float Prix { get; set; }
 

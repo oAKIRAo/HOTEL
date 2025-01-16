@@ -30,10 +30,19 @@ namespace HOTEL.Controllers
         [HttpPost]
         public IActionResult Create(Chambre chambre)
         {
-            if (ModelState.IsValid)
+            if (chambre.Capacite < 1 || chambre.Capacite > 5)
             {
-                try
-                {
+                ModelState.AddModelError("", "The room needs to have between 1 and 5 personne.");
+                return View(chambre);
+            }
+            if (_context.Chambres.Any(c => c.Name == chambre.Name))
+            {
+                ModelState.AddModelError("", "The room name is already taken. Please choose a different name.");
+                return View(chambre); 
+            }
+
+            if (ModelState.IsValid)
+            { 
                     if (!chambre.ReservationId.HasValue)
                     {
                         chambre.ReservationId = null; // if there is no reservation linked tho this room i make sure it's null 
@@ -41,11 +50,7 @@ namespace HOTEL.Controllers
                     _context.Chambres.Add(chambre);
                     _context.SaveChanges();
                     return RedirectToAction(nameof(Index));
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", "An error occurred while saving the room. Please try again.");
-                }
+                  
             }
 
             else

@@ -9,7 +9,6 @@ namespace HOTEL.Controllers
     {
         private readonly SignInManager<Users> signInManager;
         private readonly UserManager<Users> userManager;
-
         public AccountController(SignInManager<Users> signInManager, UserManager<Users> userManager)
         {
             this.signInManager = signInManager;
@@ -25,10 +24,21 @@ namespace HOTEL.Controllers
             if (ModelState.IsValid)
             {
                 var result = await signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, false);
+                var user = await userManager.FindByNameAsync(model.Username);
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    if (user != null)
+                    {
+                        if (await userManager.IsInRoleAsync(user, "Admin"))
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else if (await userManager.IsInRoleAsync(user, "Customer"))
+                        {
+                            return RedirectToAction("Index", "Reservation");
+                        }
+                    }
                 }
                 else
                 {
@@ -45,6 +55,7 @@ namespace HOTEL.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+
             if (ModelState.IsValid)
             {
                 Users users = new Users
