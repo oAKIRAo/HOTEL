@@ -1,0 +1,17 @@
+﻿{
+  "compilerOptions": {
+    "allowJs": true, // Allow JavaScript files to be included in the project
+    "target": "ES6", // Set the JavaScript target version (ES6 is modern)
+    "module": "commonjs", // Choose module system (commonjs for Node.js projects)
+    "outDir": "./dist", // Output folder for compiled files
+    "strict": true, // Enable strict mode
+    "esModuleInterop": true
+  },
+  "include": [
+    "wwwroot/js/**/*", // Include your JavaScript files from this folder
+    "wwwroot/ts/**/*" // If you have TypeScript files, include them too
+  ],
+  "exclude": [
+    "node_modules" // Exclude node_modules from compilation
+  ]
+}

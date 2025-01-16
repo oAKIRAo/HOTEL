@@ -7,7 +7,6 @@ namespace HOTEL.ViewModels
     {
         public List<Chambre> Chambres { get; set; }
         public List<Service> Services { get; set; }
-        public bool IsReserved { get; set; }
         public float price { get; set; }
     }
 }

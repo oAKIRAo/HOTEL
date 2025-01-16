@@ -6,6 +6,7 @@ body {
 	padding: 0;
 	color: #333;
 }
+
 .BackgroundImage {
 	background-image: url('../images/image.jpg');
 	background-size: cover;
@@ -18,6 +19,7 @@ body {
 	margin: 0; /* Reset margins */
 	padding: 0; /* Remove extra padding for proper centering */
 }
+
 /* Container */
 .container {
 	max-width: 1200px;
@@ -49,6 +51,14 @@ p.empty-state {
 	text-align: center;
 	color: #777;
 	font-size: 1.2rem;
+}
+
+/* Table container with scroll */
+.table-container {
+	max-height: calc(3 * 50px); /* Adjust this height based on your needs */
+	overflow-y: auto; /* Enables vertical scroll if content exceeds max height */
+	border: 1px solid #ddd; /* Optional: border around the table */
+	margin-bottom: 20px; /* Adds space below the table */
 }
 
 /* Table styling */
